@@ -63,7 +63,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    Button button;
+    Button button, photoRecomme;
     File photoFile;
 
     ImageView imageView;
@@ -84,6 +84,19 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
 
         textView = findViewById(R.id.textView);
+        photoRecomme = findViewById(R.id.photoRecomme);
+
+        photoRecomme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get the detected emotion from the textView
+                String detectedEmotion = textView.getText().toString().replace("Detected Emotion: ", "");
+
+                // Start RecommendedVideoActivity with the detected emotion data
+                startRecommendedVideoActivity(detectedEmotion);
+            }
+        });
+
 
 
         // 버튼 누르면, 카메라로 찍을것인지, 앨범에서 고를것인지에 대한
@@ -202,6 +215,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void startRecommendedVideoActivity(String detectedEmotion) {
+        Intent intent = new Intent(MainActivity.this, RecommendedVideoActivity.class);
+        intent.putExtra("emotion", detectedEmotion);
+        startActivity(intent);
+    }
 
     private void displayFileChoose() {
         Intent i = new Intent();
